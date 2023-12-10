@@ -1,0 +1,6 @@
+{
+    "CLOVA_OCR": {
+        "API_URL": "INPUT_OCR_API_URL",
+        "KEY": "INPUT_OCR_KEY"
+    }
+}
