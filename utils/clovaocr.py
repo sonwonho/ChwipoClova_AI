@@ -6,7 +6,7 @@ import uuid
 import requests
 
 
-class PDF_OCR:
+class FILE_OCR:
     def __init__(self):
         self.api_url, self.secret_key = self._get_config()
 
@@ -53,5 +53,5 @@ class PDF_OCR:
         return " ".join(text)
 
 if __name__ == "__main__":
-    ocr = PDF_OCR()
+    ocr = FILE_OCR()
     ocr.convert_txt('results/ocr_test.png',True)
