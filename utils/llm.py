@@ -5,7 +5,7 @@ import json
 
 import requests
 
-from calctoken import TokenCalculator
+from utils.calctoken import TokenCalculator
 
 
 class LLM:
@@ -109,7 +109,7 @@ class LLM:
             # for line in r.iter_lines():
             #     if line:
             #         print(line.decode('utf-8'))
-            return r.json()
+            return r
 
                     
 
