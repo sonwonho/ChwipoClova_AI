@@ -79,8 +79,8 @@ class LLM:
     def make_question(self, resume_summary, recruit_summay):
         self._request_id = "Make-Question"
         qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summay=recruit_summay)
-        print(qustion_prompt_with_input)
-        print(self.tc.calculate(qustion_prompt_with_input))
+        # print(qustion_prompt_with_input)
+        # print(self.tc.calculate(qustion_prompt_with_input))
         preset_text = [{"role":"system","content":str(qustion_prompt_with_input)}]
         request_data = {
             'messages': preset_text,

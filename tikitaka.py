@@ -38,7 +38,7 @@ def count_token():
     btext = request.data
     text = str(btext, 'utf-8')
     token_count = tc.calculate(text)
-    return Response(token_count, mimetype="text/plain")
+    return Response(str(token_count), mimetype="text/plain")
 
 @app.route('/llm/resume', methods=["POST"])
 def llm_resume():
@@ -64,4 +64,4 @@ def llm_question():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
