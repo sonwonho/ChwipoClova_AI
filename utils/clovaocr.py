@@ -53,7 +53,8 @@ class FILE_OCR:
         return " ".join(text)
     
     def byte_convert_txt(self, file_byte, is_save=False):
-        file_name = file_byte.name
+        file_name = file_byte.filename
+        print(file_name)
         ext = os.path.splitext(file_name)[-1].replace(".","")
 
         request_json = {
@@ -64,7 +65,7 @@ class FILE_OCR:
         }
 
         payload = {"message": json.dumps(request_json).encode("UTF-8")}
-        files = [("file", file_byte)]
+        files = [("file", file_byte.stream.read())]
         headers = {"X-OCR-SECRET": self.secret_key}
 
         response = requests.request("POST", self.api_url, headers=headers, data=payload, files=files)
@@ -78,7 +79,7 @@ class FILE_OCR:
                 js = json.load(jf)
         else:
             js = response.json()
-
+        print(js)
         text = []
         for image in js['images']:
             for filed in image['fields']:
