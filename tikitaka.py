@@ -57,11 +57,31 @@ def llm_recruit():
 @app.route('/llm/question', methods=["POST"])
 def llm_question():
     input_json = json.loads(request.json)
-    recruit_summay = str(input_json["recruit_summay"])
+    recruit_summary = str(input_json["recruit_summary"])
     resume_summary = str(input_json["resume_summary"])
-    result_response = llm.make_question(recruit_summay, resume_summary)
+    result_response = llm.make_question(recruit_summary, resume_summary)
     return Response(result_response, mimetype="application/json")
 
+@app.route('/llm/interviewer_feel', methods=["POST"])
+def llm_interviewer_feel():
+    btext = request.data
+    text = str(btext, 'utf-8')
+    result_response = llm.interviewer_feel(text)
+    return Response(result_response, mimetype="application/json")
+
+@app.route('/llm/keyword', methods=["POST"])
+def llm_keyword():
+    btext = request.data
+    text = str(btext, 'utf-8')
+    result_response = llm.keyword(text)
+    return Response(result_response, mimetype="application/json")
+
+@app.route('/llm/best-answer', methods=["POST"])
+def llm_bestanswer():
+    btext = request.data
+    text = str(btext, 'utf-8')
+    result_response = llm.bestanswer(text)
+    return Response(result_response, mimetype="application/json")
 
 if __name__ == '__main__':
     app.run(debug=False)
