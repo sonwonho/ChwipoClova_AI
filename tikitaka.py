@@ -56,7 +56,7 @@ def llm_recruit():
 
 @app.route('/llm/question', methods=["POST"])
 def llm_question():
-    input_json = json.loads(request.json)
+    input_json = request.json
     recruit_summary = str(input_json["recruit_summary"])
     resume_summary = str(input_json["resume_summary"])
     result_response = llm.make_question(recruit_summary, resume_summary)
