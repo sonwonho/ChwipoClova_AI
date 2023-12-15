@@ -66,7 +66,7 @@ class LLM:
         resume_prompt_with_input = self.resume_prompt.format(resume=text)
         # print(resume_prompt_with_input)
         # print(self.tc.calculate(resume_prompt_with_input))
-        preset_text = [{"role":"system","content":str(resume_prompt_with_input)}]
+        preset_text = [{"role":"user","content": resume_prompt_with_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
@@ -84,7 +84,7 @@ class LLM:
         recruit_prompt_with_input = self.recruit_prompt.format(recruit=text)
         # print(recruit_prompt_with_input)
         # print(self.tc.calculate(recruit_prompt_with_input))
-        preset_text = [{"role":"system","content":str(recruit_prompt_with_input)}]
+        preset_text = [{"role":"user","content":str(recruit_prompt_with_input)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
@@ -102,7 +102,7 @@ class LLM:
         qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
         # print(qustion_prompt_with_input)
         # print(self.tc.calculate(qustion_prompt_with_input))
-        preset_text = [{"role":"system","content":str(qustion_prompt_with_input)}]
+        preset_text = [{"role":"user","content":str(qustion_prompt_with_input)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
@@ -120,7 +120,7 @@ class LLM:
         interveiwer_feel_prompt_with_input = self.interviewer_feel_prompt.format(applicant_answer=text)
         # print(interveiwer_feel_prompt_with_input)
         # print(self.tc.calculate(interveiwer_feel_prompt_with_input))
-        preset_text = [{"role":"system","content":str(interveiwer_feel_prompt_with_input)}]
+        preset_text = [{"role":"user","content":str(interveiwer_feel_prompt_with_input)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
@@ -138,7 +138,7 @@ class LLM:
         keyword_prompt_with_input = self.keyword_prompt.format(applicant_answer=text)
         # print(keyword_prompt_with_input)
         # print(self.tc.calculate(keyword_prompt_with_input))
-        preset_text = [{"role":"system","content":str(keyword_prompt_with_input)}]
+        preset_text = [{"role":"user","content":str(keyword_prompt_with_input)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
@@ -156,7 +156,7 @@ class LLM:
         bestanswer_prompt_with_input = self.bestanswer_prompt.format(applicant_answer=text)
         # print(bestanswer_prompt_with_input)
         # print(self.tc.calculate(bestanswer_prompt_with_input))
-        preset_text = [{"role":"system","content":str(bestanswer_prompt_with_input)}]
+        preset_text = [{"role":"user","content":str(bestanswer_prompt_with_input)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
