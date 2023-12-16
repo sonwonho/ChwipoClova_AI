@@ -145,9 +145,9 @@ class LLM:
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 900,
-            'temperature': 0.1,
-            'repeatPenalty': 5.0,
+            'maxTokens': 800,
+            'temperature': 0.5,
+            'repeatPenalty': 7.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
@@ -155,16 +155,17 @@ class LLM:
 
     def bestanswer(self, text):
         self._request_id = "Best-Answer"
-        bestanswer_prompt_with_input = self.bestanswer_prompt.format(applicant_answer=text)
+        # bestanswer_prompt_with_input = self.bestanswer_prompt.format(applicant_answer=text)
         # print(bestanswer_prompt_with_input)
         # print(self.tc.calculate(bestanswer_prompt_with_input))
-        preset_text = [{"role":"user","content":str(bestanswer_prompt_with_input)}]
+        user_input = f"#답변\n{text}"
+        preset_text = [{"role":"system", "content":self.bestanswer_prompt}, {"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 2000,
-            'temperature': 0.01,
+            'maxTokens': 1000,
+            'temperature': 0.5,
             'repeatPenalty': 5.0,
             'stopBefore': [],
             'includeAiFilters': False
