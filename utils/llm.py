@@ -165,7 +165,7 @@ class LLM:
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 1000,
+            'maxTokens': 1500,
             'temperature': 0.5,
             'repeatPenalty': 5.0,
             'stopBefore': [],
