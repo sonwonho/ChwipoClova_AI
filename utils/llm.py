@@ -159,13 +159,13 @@ class LLM:
         # bestanswer_prompt_with_input = self.bestanswer_prompt.format(applicant_answer=text)
         # print(bestanswer_prompt_with_input)
         # print(self.tc.calculate(bestanswer_prompt_with_input))
-        user_input = f"#질문\n{question}\n\n#답변\n{answer}"
+        user_input = f"#답변\n{answer}"
         preset_text = [{"role":"system", "content":self.bestanswer_prompt}, {"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 1500,
+            'maxTokens': 1000,
             'temperature': 0.5,
             'repeatPenalty': 5.0,
             'stopBefore': [],
