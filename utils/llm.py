@@ -63,17 +63,17 @@ class LLM:
     
     def resume_summary(self, text):
         self._request_id = "Resume-Summary"
-        resume_prompt_with_input = self.resume_prompt.format(resume=text)
+        # resume_prompt_with_input = self.resume_prompt.format(resume=text)
         # print(resume_prompt_with_input)
         # print(self.tc.calculate(resume_prompt_with_input))
-        preset_text = [{"role":"user","content": resume_prompt_with_input}]
+        preset_text = [{"role":"system", "content":str(self.resume_prompt)}, {"role":"user","content": str(text)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 900,
-            'temperature': 0.5,
-            'repeatPenalty': 5.0,
+            'maxTokens': 700,
+            'temperature': 1.0,
+            'repeatPenalty': 4.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
@@ -81,17 +81,17 @@ class LLM:
 
     def recruit_summary(self, text):
         self._request_id = "Recruit-Summary"
-        recruit_prompt_with_input = self.recruit_prompt.format(recruit=text)
+        # recruit_prompt_with_input = self.recruit_prompt.format(recruit=text)
         # print(recruit_prompt_with_input)
         # print(self.tc.calculate(recruit_prompt_with_input))
-        preset_text = [{"role":"user","content":str(recruit_prompt_with_input)}]
+        preset_text = [{"role":"system", "content":str(self.recruit_prompt)}, {"role":"user","content":str(text)}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 900,
-            'temperature': 0.5,
-            'repeatPenalty': 5.0,
+            'maxTokens': 500,
+            'temperature': 1.0,
+            'repeatPenalty': 4.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
@@ -99,17 +99,18 @@ class LLM:
 
     def make_question(self, resume_summary, recruit_summary):
         self._request_id = "Make-Question"
-        qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
+        # qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
         # print(qustion_prompt_with_input)
         # print(self.tc.calculate(qustion_prompt_with_input))
-        preset_text = [{"role":"user","content":str(qustion_prompt_with_input)}]
+        user_input = f"[채용공고]\n{recruit_summary}\n\n[이력서]\n{resume_summary}"
+        preset_text = [{"role":"system", "content":str(self.question_prompt)},{"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 800,
-            'temperature': 0.5,
-            'repeatPenalty': 5.0,
+            'maxTokens': 1000,
+            'temperature': 0.01,
+            'repeatPenalty': 1.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
