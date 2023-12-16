@@ -109,8 +109,8 @@ class LLM:
             'topP': 0.8,
             'topK': 0,
             'maxTokens': 1000,
-            'temperature': 0.01,
-            'repeatPenalty': 1.0,
+            'temperature': 0.25,
+            'repeatPenalty': 6.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
