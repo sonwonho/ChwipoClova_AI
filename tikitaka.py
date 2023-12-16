@@ -79,7 +79,6 @@ def llm_keyword():
 @app.route('/llm/best-answer', methods=["POST"])
 def llm_bestanswer():
     btext = request.json
-    text = str(btext, 'utf-8')
     question = str(input_json["question"])
     answer = str(input_json["answer"])
     result_response = llm.bestanswer(question, answer)
