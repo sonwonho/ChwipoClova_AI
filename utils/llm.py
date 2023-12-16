@@ -136,10 +136,11 @@ class LLM:
 
     def keyword(self, text):
         self._request_id = "Keyword"
-        keyword_prompt_with_input = self.keyword_prompt.format(applicant_answer=text)
+        # keyword_prompt_with_input = self.keyword_prompt.format(applicant_answer=text)
         # print(keyword_prompt_with_input)
         # print(self.tc.calculate(keyword_prompt_with_input))
-        preset_text = [{"role":"user","content":str(keyword_prompt_with_input)}]
+        user_input = f"#답변\n{text}"
+        preset_text = [{"role":"system","content":self.keyword_prompt}, {"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
