@@ -102,7 +102,7 @@ class LLM:
         # qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
         # print(qustion_prompt_with_input)
         # print(self.tc.calculate(qustion_prompt_with_input))
-        user_input = f"[채용공고]\n{recruit_summary}\n\n[이력서]\n{resume_summary}"
+        user_input = f"#채용공고\n{recruit_summary}\n\n#이력서\n{resume_summary}"
         preset_text = [{"role":"system", "content":str(self.question_prompt)},{"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
