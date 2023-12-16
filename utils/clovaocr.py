@@ -54,7 +54,7 @@ class FILE_OCR:
     
     def byte_convert_txt(self, file_byte, is_save=False):
         file_name = file_byte.filename
-        print(file_name)
+        # print(file_name)
         ext = os.path.splitext(file_name)[-1].replace(".","")
 
         request_json = {
@@ -79,7 +79,7 @@ class FILE_OCR:
                 js = json.load(jf)
         else:
             js = response.json()
-        print(js)
+        # print(js)
         text = []
         for image in js['images']:
             for filed in image['fields']:
