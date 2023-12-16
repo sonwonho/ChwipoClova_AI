@@ -118,17 +118,18 @@ class LLM:
 
     def interviewer_feel(self, text):
         self._request_id = "Interviewer`s-Feel"
-        interveiwer_feel_prompt_with_input = self.interviewer_feel_prompt.format(applicant_answer=text)
+        # interveiwer_feel_prompt_with_input = self.interviewer_feel_prompt.format(applicant_answer=text)
         # print(interveiwer_feel_prompt_with_input)
         # print(self.tc.calculate(interveiwer_feel_prompt_with_input))
-        preset_text = [{"role":"user","content":str(interveiwer_feel_prompt_with_input)}]
+        user_input = f"#답변\n{text}"
+        preset_text = [{"role":"system", "content":str(self.interviewer_feel_prompt)}, {"role":"user","content":user_input}]
         request_data = {
             'messages': preset_text,
             'topP': 0.8,
             'topK': 0,
-            'maxTokens': 800,
-            'temperature': 0.1,
-            'repeatPenalty': 5.0,
+            'maxTokens': 500,
+            'temperature': 0.76,
+            'repeatPenalty': 7.0,
             'stopBefore': [],
             'includeAiFilters': False
         }
