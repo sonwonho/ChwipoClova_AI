@@ -182,7 +182,7 @@ class LLM:
             # 'Accept': 'text/event-stream'
         }
 
-        with requests.post(self._host + '/testapp/v1/chat-completions/HCX-002',
+        with requests.post(self._host + '/serviceapp/v1/chat-completions/HCX-002',
                            headers=headers, json=completion_request, stream=False) as r:
             # for line in r.iter_lines():
             #     if line:
