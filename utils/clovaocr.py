@@ -84,6 +84,7 @@ class FILE_OCR:
         else:
             js = response.json()
         # print(js)
+        # print(js)
         text = []
         for image in js["images"]:
             for filed in image["fields"]:

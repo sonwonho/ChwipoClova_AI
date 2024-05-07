@@ -6,6 +6,7 @@ import json
 import requests
 
 # from utils.calctoken import TokenCalculator
+# from utils.calctoken import TokenCalculator
 
 
 class LLM:
@@ -17,7 +18,11 @@ class LLM:
         self.interviewer_feel_prompt = self._get_interviewer_feel_prompt()
         self.keyword_prompt = self._get_keyword_prompt()
         self.bestanswer_prompt = self._get_bestanswer_prompt()
+        self.interviewer_feel_prompt = self._get_interviewer_feel_prompt()
+        self.keyword_prompt = self._get_keyword_prompt()
+        self.bestanswer_prompt = self._get_bestanswer_prompt()
         self._request_id = None
+        # self.tc = TokenCalculator()
         # self.tc = TokenCalculator()
 
     def _get_config(self):
@@ -33,17 +38,20 @@ class LLM:
         with open("resources/resume_prompt.txt", "r") as resume_prompt_file:
             resume_prompt = resume_prompt_file.readlines()
         resume_prompt = "\n".join(resume_prompt)
+        resume_prompt = "\n".join(resume_prompt)
         return resume_prompt
 
     def _get_recruit_prompt(self):
         with open("resources/recruit_prompt.txt", "r") as recruit_prompt_file:
             recruit_prompt = recruit_prompt_file.readlines()
         recruit_prompt = "\n".join(recruit_prompt)
+        recruit_prompt = "\n".join(recruit_prompt)
         return recruit_prompt
 
     def _get_question_prompt(self):
         with open("resources/question_prompt.txt", "r") as question_prompt_file:
             question_prompt = question_prompt_file.readlines()
+        question_prompt = "\n".join(question_prompt)
         question_prompt = "\n".join(question_prompt)
         return question_prompt
 
@@ -70,6 +78,7 @@ class LLM:
     def resume_summary(self, text):
         self._request_id = "Resume-Summary"
         # resume_prompt_with_input = self.resume_prompt.format(resume=text)
+        # resume_prompt_with_input = self.resume_prompt.format(resume=text)
         # print(resume_prompt_with_input)
         # print(self.tc.calculate(resume_prompt_with_input))
         preset_text = [
@@ -91,6 +100,7 @@ class LLM:
     def recruit_summary(self, text):
         self._request_id = "Recruit-Summary"
         # recruit_prompt_with_input = self.recruit_prompt.format(recruit=text)
+        # recruit_prompt_with_input = self.recruit_prompt.format(recruit=text)
         # print(recruit_prompt_with_input)
         # print(self.tc.calculate(recruit_prompt_with_input))
         preset_text = [
@@ -110,7 +120,9 @@ class LLM:
         return self._execute(request_data)
 
     def make_question(self, resume_summary, recruit_summary):
+    def make_question(self, resume_summary, recruit_summary):
         self._request_id = "Make-Question"
+        # qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
         # qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
         # print(qustion_prompt_with_input)
         # print(self.tc.calculate(qustion_prompt_with_input))
