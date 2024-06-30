@@ -49,6 +49,14 @@ def ocr_file():
     return Response(bytes(text, "utf-8"), mimetype="text/plain")
 
 
+@app.route("/url_ocr", methods=["POST"])
+def ocr_file():
+    btext = request.data
+    url = str(btext, "utf-8")
+    text = fo.url_convert_txt(url)
+    return Response(bytes(text, "utf-8"), mimetype="text/plain")
+
+
 @app.route("/count_token", methods=["POST"])
 def count_token():
     btext = request.data
@@ -166,27 +174,31 @@ def llm_question():
     result_response = llm.make_question(recruit_summary, resume_summary)
     return Response(result_response, mimetype="application/json")
 
-@app.route('/llm/interviewer_feel', methods=["POST"])
+
+@app.route("/llm/interviewer_feel", methods=["POST"])
 def llm_interviewer_feel():
     btext = request.data
-    text = str(btext, 'utf-8')
+    text = str(btext, "utf-8")
     result_response = llm.interviewer_feel(text)
     return Response(result_response, mimetype="application/json")
 
-@app.route('/llm/keyword', methods=["POST"])
+
+@app.route("/llm/keyword", methods=["POST"])
 def llm_keyword():
     btext = request.data
-    text = str(btext, 'utf-8')
+    text = str(btext, "utf-8")
     result_response = llm.keyword(text)
     return Response(result_response, mimetype="application/json")
 
-@app.route('/llm/best-answer', methods=["POST"])
+
+@app.route("/llm/best-answer", methods=["POST"])
 def llm_bestanswer():
     input_json = request.json
     question = str(input_json["question"])
     answer = str(input_json["answer"])
     result_response = llm.bestanswer(question, answer)
     return Response(result_response, mimetype="application/json")
+
 
 if __name__ == "__main__":
     app.run(debug=False)
