@@ -1,10 +1,11 @@
+import asyncio
 import json
 import os
 import time
 import uuid
 
 import requests
-from web2pdf import get_pdf
+from url2pdf import get_pdf
 
 
 class FILE_OCR:
@@ -98,10 +99,10 @@ class FILE_OCR:
         return " ".join(text)
 
     def url_convert_txt(self, url, is_save=False):
-        file_byte = get_pdf(url)
-        file_name = file_byte.filename
+        file_byte = asyncio.run(get_pdf(url))
+        file_name = str(url)
         # print(file_name)
-        ext = os.path.splitext(file_name)[-1].replace(".", "")
+        ext = "pdf"
 
         request_json = {
             "images": [{"format": ext, "name": file_name}],
@@ -111,14 +112,14 @@ class FILE_OCR:
         }
 
         payload = {"message": json.dumps(request_json).encode("UTF-8")}
-        files = [("file", file_byte.stream.read())]
+        files = [("file", file_byte)]
         headers = {"X-OCR-SECRET": self.secret_key}
 
         response = requests.request(
             "POST", self.api_url, headers=headers, data=payload, files=files
         )
 
-        json_file = os.path.join("results", file_name.replace(ext, "json"))
+        json_file = os.path.join("results", file_name + ".json")
         if is_save:
             with open(json_file, "w") as jf:
                 json.dump(response.json(), jf)
@@ -134,7 +135,7 @@ class FILE_OCR:
             for filed in image["fields"]:
                 text.append(filed["inferText"])
 
-        txt_file = os.path.join("results", file_name.replace(ext, "txt"))
+        txt_file = os.path.join("results", file_name + ".txt")
         if is_save:
             with open(txt_file, "w") as txt:
                 txt.write(" ".join(text))

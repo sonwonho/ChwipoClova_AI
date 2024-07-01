@@ -1,25 +1,22 @@
-import pdfkit
+import asyncio
+
+from playwright.async_api import async_playwright
 
 
-class Web2PDF(pdfkit.PDFKit):
-    def command(self, path=None):
-        return ["xvfb-run"] + super().command(path)
-
-
-def get_pdf(url):
-    options = {
-        "margin-top": "0",
-        "margin-right": "0",
-        "margin-bottom": "0",
-        "margin-left": "0",
-        "disable-smart-shrinking": True,
-    }
-    r = Web2PDF(url, "url", options)
-    return r.to_pdf()
+async def get_pdf(url):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        await page.goto(url)
+        await page.emulate_media(media="screen")
+        pdf_bytes = await page.pdf(prefer_css_page_size=True)
+        await browser.close()
+        return pdf_bytes
 
 
 if __name__ == "__main__":
-    url = "www.google.com"
-
-    result = get_pdf(url)
-    print(result)
+    # Example usage
+    url = "https://www.naver.com"
+    # output_path = "html-to-pdf-output.pdf"
+    b = asyncio.run(get_pdf(url))
+    print(b)
