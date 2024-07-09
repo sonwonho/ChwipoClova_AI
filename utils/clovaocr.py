@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import re
 import time
 import uuid
 
@@ -100,7 +101,7 @@ class FILE_OCR:
 
     def url_convert_txt(self, url, is_save=False):
         file_byte = asyncio.run(get_pdf(url))
-        file_name = str(url)
+        file_name = re.sub("[^a-zA-Z0-9]", "", str(url))
         # print(file_name)
         ext = "pdf"
 
