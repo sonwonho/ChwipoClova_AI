@@ -1,8 +1,10 @@
 import json
 import os
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, Response, request, send_file
 
+from utils.articledb import ArticleDB
 from utils.calctoken import TokenCalculator
 from utils.clovaocr import FILE_OCR
 from utils.llm import LLM
@@ -11,6 +13,7 @@ app = Flask(__name__)
 fo = FILE_OCR()
 tc = TokenCalculator()
 llm = LLM()
+article_db = ArticleDB()
 
 
 @app.route("/file_test", methods=["POST"])
@@ -102,5 +105,36 @@ def llm_bestanswer():
     return Response(result_response, mimetype="application/json")
 
 
+@app.route("/article/update_category/<day>", methods=["GET"])
+def update_category(day):
+    update_count = 0
+    for id, link in article_db.get_feed_information_iter(day):
+        update_count += 1
+        if update_count > 10:
+            continue
+        ocr = fo.url_convert_txt(link)
+        try:
+            llm_result = llm.article_category(ocr).text
+        except Exception as e:
+            print(e)
+            print("Failed category LLM")
+
+        for categore_name in article_db.get_category_list():
+            if categore_name in llm_result:
+                article_db.insert_feed_category_result(id, categore_name)
+                # print(article_db.get_category_id(categore_name))
+            else:
+                continue
+
+    return Response(str(update_count), mimetype="text/plain")
+
+
+def auto_update_category():
+    update_category(1)
+
+
 if __name__ == "__main__":
+    sched = BackgroundScheduler(timezone="Asia/Seoul")
+    sched.add_job(auto_update_category, "cron", hour="3", minute="00", id="article")
+    sched.start()
     app.run(host="10.41.182.236", port=5000, debug=False)

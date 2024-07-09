@@ -21,6 +21,7 @@ class LLM:
         self.interviewer_feel_prompt = self._get_interviewer_feel_prompt()
         self.keyword_prompt = self._get_keyword_prompt()
         self.bestanswer_prompt = self._get_bestanswer_prompt()
+        self.article_prompt = self._get_article_prompt()
         self._request_id = None
         # self.tc = TokenCalculator()
         # self.tc = TokenCalculator()
@@ -84,6 +85,14 @@ class LLM:
             bestanswer_prompt = bestanswer_prompt_file.readlines()
         bestanswer_prompt = "\n".join(bestanswer_prompt)
         return bestanswer_prompt
+
+    def _get_article_prompt(self):
+        with open(
+            "resources/article_prompt.txt", "r", encoding="UTF-8"
+        ) as article_prompt_file:
+            article_prompt = article_prompt_file.readlines()
+        article_prompt = "\n".join(article_prompt)
+        return article_prompt
 
     def resume_summary(self, text):
         self._request_id = "Resume-Summary"
@@ -204,6 +213,25 @@ class LLM:
         user_input = f"#답변\n{answer}"
         preset_text = [
             {"role": "system", "content": self.bestanswer_prompt},
+            {"role": "user", "content": user_input},
+        ]
+        request_data = {
+            "messages": preset_text,
+            "topP": 0.8,
+            "topK": 0,
+            "maxTokens": 1000,
+            "temperature": 0.5,
+            "repeatPenalty": 5.0,
+            "stopBefore": [],
+            "includeAiFilters": False,
+        }
+        return self._execute(request_data)
+
+    def article_category(self, text):
+        self._request_id = "Article-Category"
+        user_input = f"[본문]\n{text}"
+        preset_text = [
+            {"role": "system", "content": self.article_prompt},
             {"role": "user", "content": user_input},
         ]
         request_data = {
