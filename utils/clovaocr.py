@@ -6,7 +6,8 @@ import time
 import uuid
 
 import requests
-from url2pdf import get_pdf
+
+from utils.url2pdf import get_pdf
 
 
 class FILE_OCR:

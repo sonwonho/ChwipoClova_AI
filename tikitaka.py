@@ -37,7 +37,7 @@ def ocr_file():
 
 
 @app.route("/url_ocr", methods=["POST"])
-def ocr_file():
+def ocr_url():
     btext = request.data
     url = str(btext, "utf-8")
     text = fo.url_convert_txt(url)

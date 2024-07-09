@@ -26,7 +26,7 @@ class LLM:
         # self.tc = TokenCalculator()
 
     def _get_config(self):
-        with open("config.json", "r") as cf:
+        with open("config.json", "r", encoding="UTF-8") as cf:
             config = json.load(cf)
         return (
             config["LLM"]["HOST"],
@@ -35,21 +35,27 @@ class LLM:
         )
 
     def _get_resume_prompt(self):
-        with open("resources/resume_prompt.txt", "r") as resume_prompt_file:
+        with open(
+            "resources/resume_prompt.txt", "r", encoding="UTF-8"
+        ) as resume_prompt_file:
             resume_prompt = resume_prompt_file.readlines()
         resume_prompt = "\n".join(resume_prompt)
         resume_prompt = "\n".join(resume_prompt)
         return resume_prompt
 
     def _get_recruit_prompt(self):
-        with open("resources/recruit_prompt.txt", "r") as recruit_prompt_file:
+        with open(
+            "resources/recruit_prompt.txt", "r", encoding="UTF-8"
+        ) as recruit_prompt_file:
             recruit_prompt = recruit_prompt_file.readlines()
         recruit_prompt = "\n".join(recruit_prompt)
         recruit_prompt = "\n".join(recruit_prompt)
         return recruit_prompt
 
     def _get_question_prompt(self):
-        with open("resources/question_prompt.txt", "r") as question_prompt_file:
+        with open(
+            "resources/question_prompt.txt", "r", encoding="UTF-8"
+        ) as question_prompt_file:
             question_prompt = question_prompt_file.readlines()
         question_prompt = "\n".join(question_prompt)
         question_prompt = "\n".join(question_prompt)
@@ -57,20 +63,24 @@ class LLM:
 
     def _get_interviewer_feel_prompt(self):
         with open(
-            "resources/interviewer_feel_prompt.txt", "r"
+            "resources/interviewer_feel_prompt.txt", "r", encoding="UTF-8"
         ) as interviewer_feel_prompt_file:
             interviewer_feel_prompt = interviewer_feel_prompt_file.readlines()
         interviewer_feel_prompt = "\n".join(interviewer_feel_prompt)
         return interviewer_feel_prompt
 
     def _get_keyword_prompt(self):
-        with open("resources/keyword_prompt.txt", "r") as keyword_prompt_file:
+        with open(
+            "resources/keyword_prompt.txt", "r", encoding="UTF-8"
+        ) as keyword_prompt_file:
             keyword_prompt = keyword_prompt_file.readlines()
         keyword_prompt = "\n".join(keyword_prompt)
         return keyword_prompt
 
     def _get_bestanswer_prompt(self):
-        with open("resources/bestanswer_prompt.txt", "r") as bestanswer_prompt_file:
+        with open(
+            "resources/bestanswer_prompt.txt", "r", encoding="UTF-8"
+        ) as bestanswer_prompt_file:
             bestanswer_prompt = bestanswer_prompt_file.readlines()
         bestanswer_prompt = "\n".join(bestanswer_prompt)
         return bestanswer_prompt
@@ -119,7 +129,6 @@ class LLM:
         }
         return self._execute(request_data)
 
-    def make_question(self, resume_summary, recruit_summary):
     def make_question(self, resume_summary, recruit_summary):
         self._request_id = "Make-Question"
         # qustion_prompt_with_input = self.question_prompt.format(resume_summary=resume_summary, recruit_summary=recruit_summary)
