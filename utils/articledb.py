@@ -6,14 +6,6 @@ import MySQLdb
 class ArticleDB:
     def __init__(self):
         self.host, self.port, self.id, self.password, self.db = self._get_config()
-        self.conn = MySQLdb.connect(
-            host=self.host,
-            port=self.port,
-            user=self.id,
-            password=self.password,
-            database=self.db,
-        )
-        self.cursor = self.conn.cursor()
 
     def _get_config(self):
         with open("config.json", "r") as cf:
@@ -26,9 +18,27 @@ class ArticleDB:
             config["ARTICLEDB"]["DATABASE"],
         )
 
+    def _connect(self):
+        self.conn = MySQLdb.connect(
+            host=self.host,
+            port=self.port,
+            user=self.id,
+            password=self.password,
+            database=self.db,
+        )
+        self.cursor = self.conn.cursor()
+
+    def _disconnect(self):
+        self.cursor.close()
+        self.conn.close()
+
     def _execute(self, sql):
+        self._connect()
         self.cursor.execute(sql)
-        return self.cursor
+        self.conn.commit()
+        result = self.cursor.fetchall()
+        self._disconnect()
+        return result
 
     def show_columns(self, table):
         for r in self._execute(f"SHOW columns FROM {table}"):
@@ -47,7 +57,7 @@ class ArticleDB:
             get_category_id_sql = (
                 f"SELECT id FROM FeedSubCategory WHERE name='{category}'"
             )
-            return self._execute(get_category_id_sql).fetchone()[0]
+            return self._execute(get_category_id_sql)[0][0]
         else:
             raise Exception("Undefined category")
 
@@ -72,9 +82,9 @@ if __name__ == "__main__":
     # mdb.show_all_data_in_table("FeedSubCategory")
     # mdb.show_columns("FeedAndCategory")
     # mdb.show_all_data_in_table("FeedAndCategory")
-    # mdb.insert_feed_category_result(974, "목표 설정")
+    # mdb.insert_feed_category_result(973, "목표 설정")
     # mdb.show_all_data_in_table("FeedAndCategory")
-    # mdb._execute(f"DELETE FROM FeedAndCategory WHERE id = 580")
+    # mdb._execute(f"DELETE FROM FeedAndCategory WHERE id = 584")
     # mdb.show_all_data_in_table("FeedAndCategory")
-    for id, link in mdb.get_feed_information_iter(100):
-        print(f"id : {id} // link : {link}")
+    # for id, link in mdb.get_feed_information_iter(100):
+    #     print(f"id : {id} // link : {link}")
