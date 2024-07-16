@@ -112,7 +112,12 @@ def update_category(day):
         update_count += 1
         if update_count > 10:
             continue
-        ocr = fo.url_convert_txt(link)
+        try:
+            ocr = fo.url_convert_txt(link)
+        except Exception as e:
+            print(e)
+            print("Failed OCR")
+
         try:
             llm_result = llm.article_category(ocr).text
         except Exception as e:
