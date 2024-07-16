@@ -130,6 +130,7 @@ def update_category(day):
                 article_db.insert_feed_category_result(id, categore_name)
                 # print(article_db.get_category_id(categore_name))
             else:
+                print(f"No categore = {categore_name}")
                 continue
 
     return Response(str(update_count), mimetype="text/plain")
