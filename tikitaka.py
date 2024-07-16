@@ -108,6 +108,7 @@ def llm_bestanswer():
 @app.route("/article/update_category/<day>", methods=["GET"])
 def update_category(day):
     update_count = 0
+    llm_result = ""
     for id, link in article_db.get_feed_information_iter(day):
         update_count += 1
         if update_count > 10:
